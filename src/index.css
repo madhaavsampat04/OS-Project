@@ -11,3 +11,205 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+
+.home h1{
+  padding: 10px 16px;
+  margin: 20px 0;
+  border-bottom: 1px solid #fafafa;
+  color: #f1356d;
+
+} 
+ 
+.home {
+  text-align: center;
+  margin-top: 50px;
+  
+  
+}
+
+.links {
+  margin-top: 20px;
+}
+
+.home a {
+  display: block;
+  padding: 15px 0;  
+  margin-bottom: 10px ;
+  text-decoration: hotpink;
+  color: #333;
+  font-size: 18px;
+  transition: all 0.3s ease;
+}
+
+.home a:hover {
+  color: #f1356d;
+  border-radius: 5px;
+} */
+ .reader h2{
+  padding: 10px 16px;
+  margin: 20px 0;
+  border-bottom: 1px solid #fafafa;
+  color: #f1356d;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.preamptive h2{
+  padding: 10px 16px;
+  margin: 20px 0;
+  border-bottom: 1px solid #fafafa;
+  color: #f1356d;
+  text-align: center;
+  margin-top: 50px;
+}
+.fcfs h2{
+  padding: 10px 16px;
+  margin: 20px 0;
+  border-bottom: 1px solid #fafafa;
+  color: #f1356d;
+  text-align: center;
+  margin-top: 50px;
+}
+.lru h2{
+  padding: 10px 16px;
+  margin: 20px 0;
+  border-bottom: 1px solid #fafafa;
+  color: #f1356d;
+  text-align: center;
+  margin-top: 50px;
+}
+.fcfs {
+  text-align: center;
+  margin-top: 50px;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.form-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.form-row label {
+  margin-right: 10px;
+  margin-left: 120px;
+}
+
+.form-row input {
+  margin-right: 20px; 
+}
+
+button {
+  margin-top: 10px;
+}
+ 
+
+
+.button-container button {
+  background-color: #f1356d;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+  border-radius: 12px;
+  
+}
+ul {
+  list-style-type: none;
+}
+.fcfs h3{
+  padding: 10px 16px;
+  margin: 20px 0;
+  border-bottom: 1px solid #fafafa;
+  color: #f1356d;
+  margin-top: 20px;
+  text-align: center;
+}
+.preamptive h3{
+  padding: 10px 16px;
+  margin: 20px 0;
+  border-bottom: 1px solid #fafafa;
+  color: #f1356d;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.table{
+  margin-right: 10px;
+  margin-left: 600px;
+  border-spacing: 10px;
+}
+.table2{
+  margin-right: 10px;
+  margin-left: 500px;
+  border-spacing: 10px;
+} 
+
+.gantt{
+  margin-right:50px;
+  margin-left: 250px;
+}
+.avg,.tat{
+  text-align: center;
+}
+.button-container2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.button-container2 button {
+  background-color: #f1356d;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 12px;
+}
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.button-container button {
+  background-color: #f1356d;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+
+.table,.table2, .table3, .table4 {
+  margin: 0 auto; 
+  border-spacing: 10px;
+}
+.table3 th,
+.table3 td,
+.table4 th,
+.table4 td {
+  text-align: center; 
+}
