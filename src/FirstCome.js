@@ -1,179 +1,157 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Chart from 'chart.js/auto';
 
 const FirstCome = () => {
-    const [processes, setProcesses] = useState([]);
-    const [processName, setProcessName] = useState('');
-    const [arrivalTime, setArrivalTime] = useState('');
-    const [burstTime, setBurstTime] = useState('');
-    const [output, setOutput] = useState({
-        processes: [],
-        averageWaitingTime: undefined
-    });
+    const [requests, setRequests] = useState([]);
+    const [initialHeadPosition, setInitialHeadPosition] = useState('');
+    const [totalHeadMovement, setTotalHeadMovement] = useState(null);
+    const [inputString, setInputString] = useState('');
+    const [chart, setChart] = useState(null);
 
-    const handleProcessNameChange = (e) => {
-        setProcessName(e.target.value);
+    const handleInitialHeadPositionChange = (e) => {
+        setInitialHeadPosition(e.target.value);
     };
 
-    const handleArrivalTimeChange = (e) => {
-        setArrivalTime(e.target.value);
-    };
-
-    const handleBurstTimeChange = (e) => {
-        setBurstTime(e.target.value);
+    const handleInputStringChange = (e) => {
+        setInputString(e.target.value);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const newProcess = {
-            processName: processName,
-            arrivalTime: parseInt(arrivalTime),
-            burstTime: parseInt(burstTime)
-        };
-        setProcesses([...processes, newProcess]);
-
-        setProcessName('');
-        setArrivalTime('');
-        setBurstTime('');
+        const inputArray = inputString.split(',').map(item => parseInt(item.trim()));
+        setRequests(inputArray);
     };
 
-    const handleFCFS = () => {
-        const sortedProcesses = [...processes].sort((a, b) => a.arrivalTime - b.arrivalTime);
-        let currentTime = 0;
-        let totalWaitingTime = 0;
-
-        sortedProcesses.forEach((process, index) => {
-            if (currentTime < process.arrivalTime) {
-                currentTime = process.arrivalTime;
-            }
-            process.waitingTime = currentTime - process.arrivalTime;
-            currentTime += process.burstTime;
-            process.completionTime = currentTime;
-            totalWaitingTime += process.waitingTime;
-        });
-
-        const averageWaitingTime = (totalWaitingTime / processes.length).toFixed(2);
-        setOutput({
-            processes: sortedProcesses,
-            averageWaitingTime: averageWaitingTime
-        });
-    };
-    const renderGanttChart = () => {
-        const colors = ['#007bff', '#28a745', '#dc3545', '#ffc107', '#17a2b8', '#6610f2', '#28a745', '#007bff', '#dc3545', '#ffc107']; 
-        let totalBurstTime = 0;
-        for (let i = 0; i < output.processes.length; i++) {
-            totalBurstTime += output.processes[i].burstTime;
+    const calculateFCFS = () => {
+        if (requests.length === 0 || initialHeadPosition === '') {
+            return;
         }
-    
-        let startTime=0; 
-        const bars = output.processes.map((process, index) => {
-            const width = (process.burstTime / totalBurstTime) * 100;
-            const color = colors[index % colors.length]; 
-            const barStyle = {
-                width: `${width}%`, 
-                background: color,
-                color: '#fff',
-                textAlign: 'center',
-                border: '2px solid  #333',
-                position: 'relative',
-            };
-    
-            // Calculate start time based on completion time of previous process
-            let processStartTime = startTime;
-            startTime += process.burstTime;
-    
-            return (
-                <div key={index} style={barStyle}>
-                    <div>{process.processName}</div>
-                    <div style={{textAlign:'left'}}>ST:{processStartTime}</div>
-                    <div style={{textAlign:'right'}}>FT:{process.completionTime}</div>
-                </div>
-            ); 
-        });
-    
-        return (
-            <div style={{ display: 'flex', marginTop: '20px' }} className="gantt">
-                {bars}
-            </div>
-        );
+
+        let seekCount = 0;
+        let currentHead = parseInt(initialHeadPosition);
+
+        // Array to store disk head movement
+        const headMovement = [];
+
+        // Add initial head position as the first point
+        headMovement.push({ x: parseInt(initialHeadPosition), y: 0 });
+
+        // Array to store line segments
+        const lineSegments = [];
+
+        let prevTrack = parseInt(initialHeadPosition);
+
+        for (let i = 0; i < requests.length; i++) {
+            const curTrack = requests[i];
+            const distance = Math.abs(curTrack - currentHead);
+            seekCount += distance;
+            currentHead = curTrack;
+            headMovement.push({ x: curTrack, y: i + 1 }); // Track number as x-axis value, positive request number as y-axis value
+            lineSegments.push([{ x: prevTrack, y: i }, { x: curTrack, y: i + 1 }]);
+            prevTrack = curTrack;
+        }
+
+        setTotalHeadMovement(seekCount);
+
+        // Render chart
+        renderChart(headMovement, lineSegments);
     };
-    
-    
+
+    const renderChart = (data, lineSegments) => {
+        if (chart) {
+            chart.destroy(); // Destroy existing chart before rendering new one
+        }
+
+        if (data.length === 0 || lineSegments.length === 0) {
+            return; // Don't render chart if data is empty
+        }
+
+        const ctx = document.getElementById('disk-chart');
+
+        const myChart = new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Disk Head Movement',
+                    data: data,
+                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1,
+                    pointRadius: 5, 
+                    pointHoverRadius: 7, 
+                    pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+                    fill: false,
+                    showLine: true,
+                }, ]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Track Number'
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 199
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Request Number'
+                        },
+                    }
+                }
+            }
+        });
+
+        setChart(myChart);
+    };
+
+    useEffect(() => {
+        if (chart) {
+            chart.destroy(); 
+        }
+    }, []);
 
     return (
         <div className="fcfs">
             <h2>First Come First Serve Disk Scheduling Algorithm</h2>
             <form onSubmit={handleSubmit}>
-                <div className="form-row">
-                    <label>Process Name:</label>
-                    <input type="text" value={processName} onChange={handleProcessNameChange} required />
-                    <label>Arrival Time:</label>
-                    <input type="number" value={arrivalTime} onChange={handleArrivalTimeChange} required />
-                    <label>Burst Time:</label>
-                    <input type="number" value={burstTime} onChange={handleBurstTimeChange} required />
+                <div className="form-row2">
+                    <label>Request Sequence:</label>
+                    <input type="text" value={inputString} onChange={handleInputStringChange} required />
+                    <label>Initial Head Position:</label>
+                    <input type="number" value={initialHeadPosition} onChange={handleInitialHeadPositionChange} required />
                 </div>
                 <div className="button-container">
-                    <button type="submit">Add New Process</button>
+                    <button type="submit">Set Sequence</button>
                 </div>
             </form>
             <div className="button-container">
-                <button onClick={handleFCFS}>Calculate Results</button>
+                <button onClick={calculateFCFS}>Calculate Results</button>
             </div>
 
-            {processes.length > 0 && (
-                <div>
-                    <h3>Processes:</h3>
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th>Process Name</th>
-                                <th>Arrival Time</th>
-                                <th>Burst Time</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {processes.map((process, index) => (
-                                <tr key={index}>
-                                    <td>{process.processName}</td>
-                                    <td>{process.arrivalTime}</td>
-                                    <td>{process.burstTime}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+            {requests.length > 0 && (
+                <div className="fcfs2">
+                    <h3>Requests:</h3>
+                    <ul>
+                        {requests.map((request, index) => (
+                            <li key={index}>{request}</li>
+                        ))}
+                    </ul>
                 </div>
             )}
 
-            {output.averageWaitingTime !== undefined && (
+            {totalHeadMovement !== null && (
                 <div>
                     <h3>Results:</h3>
-                    <div>Average Waiting Time:{output.averageWaitingTime}</div>
-                    <table className="table2">
-                        <thead>
-                            <tr>
-                                <th>Process Name</th>
-                                <th>Arrival Time</th>
-                                <th>Burst Time</th>
-                                <th>Completion Time</th>
-                                <th>Waiting Time</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {output.processes.map((process, index) => (
-                                <tr key={index}>
-                                    <td>{process.processName}</td>
-                                    <td>{process.arrivalTime}</td>
-                                    <td>{process.burstTime}</td>
-                                    <td>{process.completionTime}</td>
-                                    <td>{process.waitingTime}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                    <h3>Gantt Chart:</h3>
-                    {renderGanttChart()}
+                    <div className="headmov">Total Head Movement: {totalHeadMovement}</div>
                 </div>
-                
             )}
+
+            <div>
+                <canvas id="disk-chart"></canvas>
+            </div>
         </div>
     );
 };

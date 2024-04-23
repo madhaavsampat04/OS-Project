@@ -188,8 +188,7 @@ const PriorityScheduling = () => {
                             ))}
                         </tbody>
                     </table>
-                    <h3>Gantt Chart:</h3>
-                    {/* {renderGanttChart()}  */}
+                    
                 </div>
             )}
         </div>
@@ -197,4 +196,3 @@ const PriorityScheduling = () => {
 };
 
 export default PriorityScheduling;
-

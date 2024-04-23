@@ -1,3 +1,5 @@
+
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -11,7 +13,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
 
 
 .home h1{
@@ -47,7 +48,8 @@ code {
   color: #f1356d;
   border-radius: 5px;
 } */
- .reader h2{
+
+.reader h2{
   padding: 10px 16px;
   margin: 20px 0;
   border-bottom: 1px solid #fafafa;
@@ -57,6 +59,14 @@ code {
 }
 
 .preamptive h2{
+  padding: 10px 16px;
+  margin: 20px 0;
+  border-bottom: 1px solid #fafafa;
+  color: #f1356d;
+  text-align: center;
+  margin-top: 50px;
+}
+.reader2 h2{
   padding: 10px 16px;
   margin: 20px 0;
   border-bottom: 1px solid #fafafa;
@@ -105,12 +115,26 @@ code {
 .form-row input {
   margin-right: 20px; 
 }
+.form-row2 {
+  display: flex;
+  margin-left:250px;
+  margin-bottom: 10px;
+}
 
+.form-row2 label{
+  margin-right: 10px;
+  margin-left: 140px;
+}
+
+.form-row2 input {
+  margin-right: 20px;
+   /* Set the desired width */
+  height: 20px; 
+}
 button {
   margin-top: 10px;
 }
  
-
 
 .button-container button {
   background-color: #f1356d;
@@ -130,6 +154,11 @@ button {
 ul {
   list-style-type: none;
 }
+.fcfs2 {
+  
+  text-align:center;
+
+}
 .fcfs h3{
   padding: 10px 16px;
   margin: 20px 0;
@@ -143,6 +172,13 @@ ul {
   margin: 20px 0;
   border-bottom: 1px solid #fafafa;
   color: #f1356d;
+  margin-top: 20px;
+  text-align: center;
+}
+.lru h3{
+  padding: 10px 16px;
+  margin: 20px 0;
+  border-bottom: 1px solid #fafafa;
   margin-top: 20px;
   text-align: center;
 }
@@ -201,8 +237,17 @@ ul {
   cursor: pointer;
   border-radius: 12px;
 }
-
-
+.button-container3 button{
+  background-color: #f1356d;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 12px;
+}
 .table,.table2, .table3, .table4 {
   margin: 0 auto; 
   border-spacing: 10px;
@@ -212,4 +257,30 @@ ul {
 .table4 th,
 .table4 td {
   text-align: center; 
+}
+.chart-container{
+  align-items: center;
+}
+
+.headmov{
+  font-weight: bold;
+}
+
+.text{
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 20px; 
+}
+
+
+.button-container3 button {
+  background-color: #f1356d;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 12px;
 }
