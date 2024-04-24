@@ -73,7 +73,7 @@ const LeastRecently = () => {
       <div className="button-container">
       <button onClick={simulateLRU}>Simulate LRU</button>
       </div>
-      {showOutput && ( 
+      { showOutput && ( 
         <div >
           <h3>Page Faults: {faults}</h3>
           <h3>Memory Frames: {memoryFrames.join(', ')}</h3>
@@ -85,45 +85,3 @@ const LeastRecently = () => {
 };
 
 export default LeastRecently;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const LeastRecently = () => {
-   
-//     return ( 
-//         <div className="lru">
-//            <h2>Least Recently Used(LRU) Page Replacement Algorithm</h2> 
-//         </div>
-//      );
-// }
- 
-// export default LeastRecently;

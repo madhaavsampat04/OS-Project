@@ -52,8 +52,6 @@ const FirstCome = () => {
         }
 
         setTotalHeadMovement(seekCount);
-
-        // Render chart
         renderChart(headMovement, lineSegments);
     };
 
